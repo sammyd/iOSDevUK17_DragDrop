@@ -1,10 +1,10 @@
-# 360|iDev 2017: A fun iOS 11 Workshop
+# iOSDevUK 2017: Drag and Drop in iOS 11
 
 The name says it all really.
 
 ## Minimum Requirements
 
-Tested with Xcode 9 beta 5.
+Tested with Xcode 9 beta 6.
 
 ## Contact
 

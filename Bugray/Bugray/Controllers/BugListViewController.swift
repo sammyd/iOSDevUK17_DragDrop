@@ -118,12 +118,17 @@ extension BugListViewController: UICollectionViewDropDelegate {
   }
   
   func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator) {
-    guard let dragCoordinator = coordinator.session.localDragSession?.localContext as? BugDragCoordinator else { return }
-    let indexPath = coordinator.destinationIndexPath ?? IndexPath(item: collectionView.numberOfItems(inSection: 0), section: 0)
-    dragCoordinator.calculateDestinationIndexPaths(from: indexPath, count: coordinator.items.count)
-    dragCoordinator.destination = context
     
-    moveBugs(using: dragCoordinator, performingDropWith: coordinator)
+    let indexPath = coordinator.destinationIndexPath ?? IndexPath(item: collectionView.numberOfItems(inSection: 0), section: 0)
+    
+    if let dragCoordinator = coordinator.session.localDragSession?.localContext as? BugDragCoordinator {
+      dragCoordinator.calculateDestinationIndexPaths(from: indexPath, count: coordinator.items.count)
+      dragCoordinator.destination = context
+      
+      moveBugs(using: dragCoordinator, performingDropWith: coordinator)
+    } else {
+      createBug(for: coordinator, at: indexPath)
+    }
   }
   
   func collectionView(_ collectionView: UICollectionView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UICollectionViewDropProposal {
@@ -131,7 +136,11 @@ extension BugListViewController: UICollectionViewDropDelegate {
     if session.localDragSession != nil {
       operation = .move
     } else {
-      operation = .copy
+      if session.items.count == 1 {
+        operation = .copy
+      } else {
+        operation = .forbidden
+      }
     }
     
     return UICollectionViewDropProposal(operation: operation, intent: .insertAtDestinationIndexPath)
@@ -160,6 +169,21 @@ extension BugListViewController: UICollectionViewDropDelegate {
       dropCoordinator.drop(item.dragItem, toItemAt: destinationIndexPath)
     }
     dragCoordinator.dragCompleted = true
+  }
+  
+  private func createBug(for coordinator: UICollectionViewDropCoordinator, at indexPath: IndexPath) {
+    for item in coordinator.items {
+      guard item.dragItem.itemProvider.canLoadObject(ofClass: NSString.self) else { return }
+      item.dragItem.itemProvider.loadObject(ofClass: NSString.self) { (string, error) in
+        guard let string = string as? NSString else { return }
+        BugStore.sharedStore.addBug(at: indexPath.item, in: self.context, name: string as String)
+        
+        DispatchQueue.main.async {
+          self.collectionView.insertItems(at: [indexPath])
+          self.setBugCount()
+        }
+      }
+    }
   }
 }
 

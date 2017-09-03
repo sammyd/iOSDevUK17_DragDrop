@@ -1,0 +1,109 @@
+{
+  "store": [
+    "toDo",
+    [
+      {
+        "id": "WEB-756",
+        "description": "Users experience playback issues when watching at 1.5 or 2x speed",
+        "priority": "medium",
+        "context": "toDo"
+      },
+      {
+        "id": "WEB-180",
+        "description": "The video page is missing the author bio",
+        "priority": "low",
+        "context": "toDo"
+      },
+      {
+        "id": "WEB-273",
+        "description": "Users are unable to view challenge videos",
+        "priority": "high",
+        "context": "toDo"
+      },
+      {
+        "id": "WEB-715",
+        "description": "Some users are receiving duplicate notifications",
+        "priority":  "medium",
+        "context": "toDo"
+      },
+      {
+        "id": "WEB-211",
+        "description": "The video player isn't visible in IE 10 or Firefox on Windows",
+        "priority": "high",
+        "context": "toDo"
+      },
+      {
+        "id": "WEB-279",
+        "description": "Clicking, rather than hovering over a top level menu item leaves it open",
+        "priority": "low",
+        "context": "toDo"
+      },
+      {
+        "id": "WEB-267",
+        "description": "The slider height is specified incorrectly in video.css",
+        "priority": "low",
+        "context": "toDo"
+      },
+      {
+        "id": "WEB-253",
+        "description": "The subscription status should be cached on the User model",
+        "priority": "high",
+        "context": "toDo"
+      },
+      {
+        "id": "WEB-245",
+        "description": "The active class is missing from the drop-down links in the Video menu",
+        "priority": "low",
+        "context": "toDo"
+      },
+      {
+        "id": "WEB-7216",
+        "description": "Users are unable to manually select the playback quality",
+        "priority": "medium",
+        "context": "toDo"
+      }
+    ],
+    "inProgress",
+    [
+      {
+        "id":"WEB-813",
+        "description":"Inserting media using the CMS sporadically deletes the surrounding content",
+        "priority": "medium",
+        "context": "inProgress"
+      },
+      {
+        "id":"WEB-696",
+        "description":"Failed orders aren't being logged correctly",
+        "priority": "high",
+        "context": "inProgress"
+      }
+    ],
+    "done",
+    [
+      {
+        "id":"WEB-423",
+        "description":"Users can't login using the button in the forum header",
+        "priority": "medium",
+        "context": "done"
+      },
+      {
+        "id":"WEB-092",
+        "description":"Logging out should be synced across all browsers and devices",
+        "priority": "low",
+        "context": "done"
+      },
+      {
+        "id":"WEB-765",
+        "description":"Push notifications can't be disabled on individual posts",
+        "priority": "medium",
+        "context": "done"
+      },
+      {
+        "id":"WEB-810",
+        "description":"The syntax highlighter is excluding certain Swift keywords",
+        "priority": "high",
+        "context": "done"
+      }
+    ]
+  ]
+}

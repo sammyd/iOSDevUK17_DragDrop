@@ -29,6 +29,7 @@
  */
 
 import UIKit
+import MobileCoreServices
 
 class BugListViewController: UIViewController {
   
@@ -113,6 +114,7 @@ extension BugListViewController: UICollectionViewDragDelegate {
 extension BugListViewController: UICollectionViewDropDelegate {
   func collectionView(_ collectionView: UICollectionView, canHandle session: UIDropSession) -> Bool {
     return session.localDragSession != nil
+      || session.hasItemsConforming(toTypeIdentifiers: [kUTTypePlainText as String])
   }
   
   func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator) {
@@ -125,7 +127,14 @@ extension BugListViewController: UICollectionViewDropDelegate {
   }
   
   func collectionView(_ collectionView: UICollectionView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UICollectionViewDropProposal {
-    return UICollectionViewDropProposal(operation: .move, intent: .insertAtDestinationIndexPath)
+    let operation: UIDropOperation
+    if session.localDragSession != nil {
+      operation = .move
+    } else {
+      operation = .copy
+    }
+    
+    return UICollectionViewDropProposal(operation: operation, intent: .insertAtDestinationIndexPath)
   }
   
   private func moveBugs(using dragCoordinator: BugDragCoordinator, performingDropWith dropCoordinator: UICollectionViewDropCoordinator) {

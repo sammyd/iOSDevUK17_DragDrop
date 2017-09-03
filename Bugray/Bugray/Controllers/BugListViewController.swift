@@ -45,6 +45,7 @@ class BugListViewController: UIViewController {
     collectionView.dataSource = self
     collectionView.delegate = self
     collectionView.dragDelegate = self
+    collectionView.dropDelegate = self
   }
   
   private func setContextTitle() {
@@ -89,7 +90,15 @@ extension BugListViewController: UICollectionViewDragDelegate {
   }
 }
 
-
+extension BugListViewController: UICollectionViewDropDelegate {
+  func collectionView(_ collectionView: UICollectionView, canHandle session: UIDropSession) -> Bool {
+    return session.localDragSession != nil
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator) {
+    // We'll come back to this
+  }
+}
 
 
 

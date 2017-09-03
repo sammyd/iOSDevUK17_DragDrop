@@ -102,6 +102,12 @@ extension BugListViewController: UICollectionViewDragDelegate {
       self.setBugCount()
     }
   }
+  
+  func collectionView(_ collectionView: UICollectionView, itemsForAddingTo session: UIDragSession, at indexPath: IndexPath, point: CGPoint) -> [UIDragItem] {
+    guard let dragCoordinator = session.localContext as? BugDragCoordinator,
+      dragCoordinator.source == context else { return [] }
+     return [dragCoordinator.dragItemForBug(at: indexPath)]
+  }
 }
 
 extension BugListViewController: UICollectionViewDropDelegate {
@@ -112,7 +118,7 @@ extension BugListViewController: UICollectionViewDropDelegate {
   func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator) {
     guard let dragCoordinator = coordinator.session.localDragSession?.localContext as? BugDragCoordinator else { return }
     let indexPath = coordinator.destinationIndexPath ?? IndexPath(item: collectionView.numberOfItems(inSection: 0), section: 0)
-    dragCoordinator.destinationIndexPaths = [indexPath]
+    dragCoordinator.calculateDestinationIndexPaths(from: indexPath, count: coordinator.items.count)
     dragCoordinator.destination = context
     
     moveBugs(using: dragCoordinator, performingDropWith: coordinator)
